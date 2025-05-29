@@ -36,3 +36,37 @@ void Player::handleInput(){
     }
 }
 
+void Player::update(float dt, const std::vector<StaticObstacles>& obstacles){
+    velocity += acceleration * dt;
+
+    sf::Vector2f nextPosition = position + velocity * dt;
+    sf::FloatRect nextBounds = shape.getGlobalBounds();
+    nextBounds.left = nextPosition.x;
+    nextBounds.top = nextPosition.y;
+
+    for(auto &obstacle : obstacles){
+        if(nextBounds.intersects(obstacle.getShape().getGlobalBounds())){
+            velocity = sf::Vector2f(0.f,0.f);
+            return; //Don't move from this frame
+        }
+    }
+
+    position = nextPosition;
+    velocity *= friction;
+
+    shape.setPosition(position);
+
+    //This keeps the player in the pixel frame
+    sf::Vector2f size = shape.getSize();
+    float maxX = 800 - size.x;
+    float maxY = 600 - size.y;
+
+    if(position.x > maxX) position.x = maxX;
+    if(position.x < 0) position.x = 0;
+    if(position.y > maxY) position.y = maxY;
+    if(position.y < 0) position.y = 0;
+}
+
+void Player::draw(sf::RenderWindow &window){
+    window.draw(shape);
+}

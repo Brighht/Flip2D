@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <StaticObstacles.hpp>
 
 class Player {
 private:
@@ -18,7 +19,7 @@ private:
 public:
     Player(const std::string& userName);
 
-    void update(float dt);
+    void update(float dt, const std::vector<StaticObstacles>& obstacles);
     void draw(sf::RenderWindow& window);
     void handleInput();
 
