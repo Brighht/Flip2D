@@ -6,11 +6,11 @@ Player::Player(const std::string &userName){
     position = sf::Vector2f(100.f,100.f);
     velocity = sf::Vector2f(0.f,0.f);
     acceleration = sf::Vector2f(0.f,0.f);
-    speed = 600.f;
+    speed = 500.f;
     friction = 0.9f;
-    jumpVelocity = -600.f;
-    isOnGround = false;
-    gravity = 1500.f;
+    // jumpVelocity = -600.f;
+    // isOnGround = false;
+    // gravity = 1500.f;
 
     
     shape.setFillColor(sf::Color::Blue);
@@ -22,19 +22,12 @@ Player::Player(const std::string &userName){
 void Player::handleInput(){
     acceleration = sf::Vector2f(0.f,0.f);
 
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::W)){
-        acceleration.y = -speed;
-    }
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::S)){
-        acceleration.y = speed;
-    }
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::A)){
-        acceleration.x = -speed;
-    }
-    if(sf::Keyboard::isKeyPressed(sf::Keyboard::D)){
-        acceleration.x = -speed;
-    }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) velocity.y = -speed;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) velocity.y = speed;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) velocity.x = -speed;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) velocity.x = speed;
 }
+
 
 void Player::update(float dt, const std::vector<StaticObstacles>& obstacles){
     velocity += acceleration * dt;
