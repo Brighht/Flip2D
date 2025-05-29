@@ -1,5 +1,7 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include "Player.hpp"
+#include "StaticObstacles.hpp"
 
 using namespace sf;
 
@@ -14,7 +16,7 @@ class FlipEngine {
         float deltaTime;
 
         Player player;
-        
+        vector<StaticObstacles> obstacles;
 
         void updateGame();
         void processInput();

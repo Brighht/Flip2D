@@ -1,25 +1,27 @@
+#pragma once
 #include <SFML/Graphics.hpp>
 #include <string>
 
-using namespace std;
-using namespace sf;
-
 class Player {
-    private:
-        string userName;
-        RectangleShape shape;
-        Vector2f position;
-        Vector2f velocity;
-        Vector2f acceleration;
-        float speed;
-        float gravity;
-        float jumpVelocity;
-        bool isOnGround;
+private:
+    std::string userName;
+    sf::RectangleShape shape;
+    sf::Vector2f position;
+    sf::Vector2f velocity;
+    sf::Vector2f acceleration;
+    float speed;
+    float gravity;
+    float jumpVelocity;
+    bool isOnGround;
 
-    public:
-        Player(const string &userName);
-        void update(float dt);
-        void draw(RenderWindow &window);
-        void handleInput();
+public:
+    Player(const std::string& userName);
 
+    void update(float dt);
+    void draw(sf::RenderWindow& window);
+    void handleInput();
+
+    const sf::RectangleShape& getShape() const;
+    void setOnGround(bool value);
+    bool onGround() const;
 };
