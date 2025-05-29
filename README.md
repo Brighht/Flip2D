@@ -14,7 +14,10 @@ Flip2D/
 │   ├── Player.cpp
 │   ├── Obstacles.cpp
 │   ├── Enemy.cpp
-├── assets/            # Optional: for textures, sounds, etc.
+├── assets/            
 ├── main.cpp
-├── CMakeLists.txt     # Or Makefile if you're using one
+├── CMakeLists.txt    
 ```
+
+## First Look
+https://github.com/user-attachments/assets/3dd8e93b-bb80-4bfb-8127-3469f360ea20
