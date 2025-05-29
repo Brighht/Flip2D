@@ -11,6 +11,7 @@ private:
     sf::Vector2f acceleration;
     float speed;
     float gravity;
+    float friction;
     float jumpVelocity;
     bool isOnGround;
 
