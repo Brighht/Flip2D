@@ -21,3 +21,8 @@ Flip2D/
 
 ## First Look
 https://github.com/user-attachments/assets/3dd8e93b-bb80-4bfb-8127-3469f360ea20
+
+## Jump and Camera Movement
+https://github.com/user-attachments/assets/8bfbd007-edb6-4d38-90c1-fdfa6178c703
+
+
