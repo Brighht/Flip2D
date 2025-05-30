@@ -6,11 +6,11 @@ Player::Player(const std::string &userName){
     position = sf::Vector2f(100.f,100.f);
     velocity = sf::Vector2f(0.f,0.f);
     acceleration = sf::Vector2f(0.f,0.f);
-    speed = 500.f;
-    friction = 0.9f;
-    // jumpVelocity = -600.f;
-    // isOnGround = false;
-    // gravity = 1500.f;
+    speed = 400.f;
+    friction = 0.98f;
+    jumpVelocity = -800.f;
+    isOnGround = false;
+    gravity = 2000.f;
 
     
     shape.setFillColor(sf::Color::Blue);
@@ -19,46 +19,68 @@ Player::Player(const std::string &userName){
     
 };
 
-void Player::handleInput(){
-    acceleration = sf::Vector2f(0.f,0.f);
+void Player::handleInput() {
+    velocity.x = 0.f; 
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) velocity.y = -speed;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) velocity.y = speed;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) velocity.x = -speed;
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) velocity.x = speed;
+
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && isOnGround) {
+        velocity.y = jumpVelocity;
+        isOnGround = false;
+    }
 }
 
 
-void Player::update(float dt, const std::vector<StaticObstacles>& obstacles){
-    velocity += acceleration * dt;
 
-    sf::Vector2f nextPosition = position + velocity * dt;
+void Player::update(float dt, const std::vector<StaticObstacles>& obstacles) {
+    velocity.x *= friction;
+    velocity.y += gravity * dt;
+
+    sf::Vector2f nextPosition = position;
+    nextPosition.x += velocity.x * dt;
+    nextPosition.y += velocity.y * dt;
+
+
     sf::FloatRect nextBounds = shape.getGlobalBounds();
     nextBounds.left = nextPosition.x;
     nextBounds.top = nextPosition.y;
 
-    for(auto &obstacle : obstacles){
-        if(nextBounds.intersects(obstacle.getShape().getGlobalBounds())){
-            velocity = sf::Vector2f(0.f,0.f);
-            return; //Don't move from this frame
+    isOnGround = false;
+
+    // Collision check
+    for (auto& obstacle : obstacles) {
+        sf::FloatRect obstacleBounds = obstacle.getShape().getGlobalBounds();
+
+        if (nextBounds.intersects(obstacleBounds)) {
+            // Hit the ground
+            if (velocity.y > 0.f) {
+                isOnGround = true;
+                velocity.y = 0.f;
+
+                nextPosition.y = obstacle.getShape().getPosition().y - shape.getSize().y;
+            }
+
+            if (velocity.x != 0.f) {
+                velocity.x = 0.f;
+            }
         }
     }
 
     position = nextPosition;
-    velocity *= friction;
-
     shape.setPosition(position);
 
-    //This keeps the player in the pixel frame
+    // Keep inside window bounds (optional for now)
     sf::Vector2f size = shape.getSize();
     float maxX = 800 - size.x;
     float maxY = 600 - size.y;
 
-    if(position.x > maxX) position.x = maxX;
-    if(position.x < 0) position.x = 0;
-    if(position.y > maxY) position.y = maxY;
-    if(position.y < 0) position.y = 0;
+    if (position.x > maxX) position.x = maxX;
+    if (position.x < 0) position.x = 0;
+    if (position.y > maxY) position.y = maxY;
+    if (position.y < 0) position.y = 0;
 }
+
 
 void Player::draw(sf::RenderWindow &window){
     window.draw(shape);

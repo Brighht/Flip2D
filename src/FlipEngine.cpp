@@ -6,7 +6,8 @@ FlipEngine::FlipEngine()
       player("Brrrp"),
       deltaTime(0.f)
       {
-        obstacles.emplace_back(sf::Vector2f(100.f,50.f), sf::Vector2f(600.f,50.f));
+        float groundHeight = 50.f;
+        obstacles.emplace_back(sf::Vector2f(0.f, 600.f - groundHeight),sf::Vector2f(800.f, groundHeight) );
       }
 
 void FlipEngine::run(){
