@@ -14,6 +14,7 @@ class FlipEngine {
         RenderWindow gameWindow;
         Clock dtClock;
         float deltaTime;
+        sf::View cameraView;
 
         Player player;
         vector<StaticObstacles> obstacles;

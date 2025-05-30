@@ -1,14 +1,22 @@
 #include "FlipEngine.hpp"
 #include "Player.hpp"
 
-FlipEngine::FlipEngine() 
-    : gameWindow(VideoMode(800,600), "Flip2D"),
+FlipEngine::FlipEngine()
+    : gameWindow(sf::VideoMode(800, 600), "Flip2D"),
       player("Brrrp"),
       deltaTime(0.f)
-      {
-        float groundHeight = 50.f;
-        obstacles.emplace_back(sf::Vector2f(0.f, 600.f - groundHeight),sf::Vector2f(800.f, groundHeight) );
-      }
+{
+    // Setup camera view inside body
+    cameraView.setSize(800.f, 600.f);
+    cameraView.setCenter(player.getShape().getPosition());
+
+    float groundHeight = 50.f;
+    obstacles.emplace_back(
+        sf::Vector2f(0.f, 600.f - groundHeight),
+        sf::Vector2f(800.f, groundHeight)
+    );
+}
+
 
 void FlipEngine::run(){
     while(gameWindow.isOpen()){
@@ -38,6 +46,8 @@ void FlipEngine::updateGame(){
 
 void FlipEngine::render(){
     gameWindow.clear();
+    cameraView.setCenter(player.getShape().getPosition()); // follow player
+    gameWindow.setView(cameraView);
 
     for(auto &obs: obstacles){
         obs.draw(gameWindow);
