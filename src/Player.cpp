@@ -81,6 +81,9 @@ void Player::update(float dt, const std::vector<StaticObstacles>& obstacles) {
     if (position.y < 0) position.y = 0;
 }
 
+const RectangleShape& Player::getShape() const{
+    return shape;
+}
 
 void Player::draw(sf::RenderWindow &window){
     window.draw(shape);
